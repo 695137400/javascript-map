@@ -19,3 +19,5 @@ a.put([], {}); <br/>
 a.toString(); <br/>
 var s = a.toString(); <br/>
 console.log(s);
+
+"{"a":1,"b":0,"c":-99,"d":"0","e":"99","f":false,"g":{"a":"aa"},"h":[1,2],"i":"2017-03-24 11:32:54","j":"this map","[":"this map","k":"<div></div>","0":{}}"
