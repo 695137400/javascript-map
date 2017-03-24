@@ -1,3 +1,9 @@
+/**
+ * javaScript-map
+ * by 李志超
+ * 2017-03-24
+ * QQ:695137400
+ */
 var map = function () {
     var keySet = [];
     this.size = function () {
