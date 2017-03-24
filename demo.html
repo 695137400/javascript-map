@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8">
+<meta http-equiv="cache-control" content="max-age=0"/>
+<meta http-equiv="cache-control" content="no-cache"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+<meta name="format-detection" content="telephone=no"/>
+<title>demo</title>
+
+</head>
+<body>
+<div>dddff</div>
+<!--
+
+<script src="log_inline.js"></script>
+<script type="text/javascript">
+    var opt = {
+        'logExtJs': 'log_ext.js',
+        'logExtCss': 'log.css'
+    };
+    // 'main' : {
+    //     list : [_url('js/zepto.min.js'), _url('js/base.min.js'), _url('js/detail.min.js')],
+    //     check: ['$', 'DB', 'Detail']
+    // },
+    window.MLogger.init(opt);
+
+    console.log(1);
+    console.log({a:1,b: {x:'ccc'}});
+    console.log(this);
+</script>
+-->
+<script>
+    var _Console = {
+        log: function () {
+        },
+        info: function () {
+        },
+        report: function () {
+        },
+        error: function () {
+        }
+    };
+    var _extendObj = function (obj) {
+        if (typeof obj !== 'object') {
+            return obj;
+        }
+        var source, prop;
+        for (var i = 1, len = arguments.length; i < len; i++) {
+            source = arguments[i];
+            for (prop in source) {
+                if (source.hasOwnProperty(prop)) {
+                    // 不覆盖原方法执行，只是加个壳
+                    (function (obj, prop) {
+                        if (typeof obj[prop] === "function") {
+                            var oldFun = obj[prop];
+                            obj[prop] = function () {
+                                for(var i = 0; i < arguments.length; i ++){
+                                    arguments[i] = valueTo(arguments[i]);
+                                }
+                                source[prop].apply(source, arguments);
+                                oldFun.apply(obj, arguments);
+                                return arguments;
+                            };
+                        } else {
+                            obj[prop] = source[prop];
+                        }
+                    })(obj, prop);
+                }
+            }
+        }
+        return obj;
+    };
+    function valueTo(obj) {
+        if (null == obj) {
+            return '{}';
+        }
+        var objString = '';
+        if (typeof obj == 'string') {
+            return '"' + obj + '"';
+        }
+        if (typeof obj == 'number' || typeof obj == 'boolean') {
+            return obj;
+        }
+        if (typeof obj == 'object') {
+            if (obj.constructor.name == 'Array') {
+                //数组
+                objString += '[';
+                for (var index = 0; index < obj.length; index++) {
+                    var value = obj[index];
+                    value = valueTo(value);
+                    if ('' !== value) {
+                        objString += value;
+                    }
+                    if (index < obj.length - 1) {
+                        objString += ',';
+                    }
+                }
+                objString += ']';
+            } else if ('Object' == obj.constructor.name) {
+                objString += '{';
+                for (var a in obj) {
+                    var value = obj[a];
+                    value = valueTo(value);
+                    if ('' !== value) {
+                        objString += '"' + a + '":' + value + ',';
+                    }
+                }
+                if (objString.length > 1) {
+                    objString = objString.substring(0, objString.length - 1);
+                }
+                objString += '}';
+            } else if (obj.constructor.name == 'Date') {
+                var str = 'YYYY-MM-DD HH:mm:ss';
+                str = str.replace(/YYYY/, obj.getFullYear());
+                str = str.replace(/MM/, (obj.getMonth() + 1) > 9 ? (obj.getMonth() + 1).toString() : '0' + (obj.getMonth() + 1));
+                str = str.replace(/DD/, obj.getDate() > 9 ? obj.getDate().toString() : '0' + obj.getDate());
+                str = str.replace(/HH/, obj.getHours() > 9 ? obj.getHours().toString() : '0' + obj.getHours());
+                str = str.replace(/mm/, (obj.getMinutes() + 1) > 9 && (obj.getMinutes() + 1) <= 59 ? (obj.getMinutes() + 1).toString() : ((obj.getMinutes() + 1) <= 59 ? ('0' + (obj.getMinutes() + 1)) : (obj.getMinutes())));
+                str = str.replace(/ss/, obj.getSeconds() > 9 ? obj.getSeconds().toString() : '0' + obj.getSeconds());
+                objString = '"' + str + '"';
+            } else if (obj.constructor.name == 'HTMLDivElement') {
+                objString = '"' + obj.outerHTML + '"';
+            }
+        }
+        return objString;
+    }
+    _extendObj(console, _Console);
+    console.log(this);
+</script>
+</body>
+</html>
