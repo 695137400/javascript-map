@@ -1,4 +1,5 @@
 # javascript-map
+```
 var a = new map(); <br/>
 a.put('a', 1); <br/>
 a.put('b', 0.00); <br/>
@@ -17,5 +18,4 @@ a.put({}, {}); <br/>
 a.put([], {}); <br/>
 a.toString(); <br/>
 var s = a.toString(); <br/>
-console.log(s); 
----------------------------------------------------------------------
+console.log(s);
